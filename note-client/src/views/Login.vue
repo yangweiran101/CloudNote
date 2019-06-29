@@ -60,8 +60,18 @@ export default {
           duration: 3000
         });
       }
-      this.$axios.post("/api/login", {mobile: this.mobile, password: this.password}).then(res => {
+      this.$axios.post("/login", {mobile: this.mobile, password: this.password}).then(res => {
         console.log(res);
+        if (res.code == 401) return Toast({
+            message: res.data,
+            duration: 3000
+          })
+        else if (res.code == 200) {
+          Toast({
+            message: '登陆成功',
+            duration: 3000
+          })
+        }
       })
     },
     goRegister() {

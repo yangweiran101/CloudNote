@@ -51,6 +51,7 @@ module.exports = {
                 if (err) throw err
                 var querySql = `SELECT*FROM user WHERE mobile = ${body.mobile}`
                 connection.query(querySql,(err,results) => {
+                    console.log(results);
                     if (results.length === 0) reject('该手机号未注册'); // 手机号未在数据库里面
                     else if (results[0].password == body.password) resolve(results); // 手机号密码正确
                     else reject('密码错误，请重试') // 手机号已注册，但密码错误
