@@ -37,32 +37,36 @@
             message: "请登陆后再发表日志",
             duration: 3000
           });
-        } else if (this.title) {
+          setTimeout(() => {
+              this.$router.push('/login')
+          },2000)
+        } else if (this.title == "") {
           return Toast({
             message: "标题不能为空",
             duration: 3000
           });
-        } else if (this.editorContent) {
+        } else if (this.editorContent == "") {
           return Toast({
             message: "日志内容不能为空",
             duration: 3000
           });
         } else {
           const essay = {};
-          essay.author = this.userInfo;
+          essay.author = JSON.stringify(this.userInfo);
           essay.userId = this.userInfo.id;
+          essay.articleId = JSON.stringify(new Date().getTime()) + this.userInfo.id + this.userInfo.id*new Date().getSeconds();
           essay.title = this.title;
           essay.content = this.editorContent;
-          essay.createTime = new Date();
-          console.log(essay);
+          essay.createTime = this.$formatDateTime(new Date());
+          console.log(essay,essay.createTime,new Date().getTime(),this.userInfo.id*new Date().getSeconds());
         }
       }, // 提交文章
       clearContent: function () {
         this.editorContent = ''
       }, // 清空文章
       judgeLogin() {
-        console.log(JSON.parse(this.$cookie.get("userInfo")));
-        if (JSON.parse(this.$cookie.get("userInfo")).length !== 0) {
+          console.log(JSON.parse(this.$cookie.get("userInfo")));
+        if (this.$cookie.get("userInfo")&&JSON.parse(this.$cookie.get("userInfo")).length !== 0) {
           this.userInfo = JSON.parse(this.$cookie.get("userInfo"))[0];
           return true
         } else {
