@@ -976,7 +976,9 @@ body {max-width: 768px;margin: 0 auto;}
 }
 
 /*公共类名*/
-
+body{
+    background: #fff;
+}
 .hide {display: none;}
 .nowrap{white-space:nowrap;overflow:hidden;text-overflow: ellipsis;}
 .tl {text-align: left;}
@@ -1028,6 +1030,8 @@ body {max-width: 768px;margin: 0 auto;}
 .lh28{line-height:28px;}
 .lh30{line-height:30px;}
 .lh36{line-height:36px;}
+.lh40 {line-height: 40px;}
+.lh42 {line-height: 42px;}
 .lh44 {line-height: 44px;}
 .lh45 {line-height: 45px;}
 .lh48 {line-height: 48px;}

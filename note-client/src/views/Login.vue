@@ -2,7 +2,7 @@
   <div class="login">
     <Header inputName="登 录"></Header>
     <img class="dib logo" src="../assets/img/yang-logo.png" alt="" />
-    <div class="user">
+    <div class="user" v-if="!isLogin">
       <mt-field
         label="手机号"
         :state="mobileStatus"
@@ -20,6 +20,12 @@
       <button class="fz18 login-btn" @click="goLogin()">确认登录</button>
       <button class="fz18 register-btn" @click="goRegister()">前往注册</button>
     </div>
+    <div class="info" v-else>
+      <div class="fz20 tc">尊敬的<span>{{ userInfo.username }}</span></div>
+      <div class="fz28 tc mb30">您好 <br>欢迎来到，树林小站</div>
+      <button class="fz18 login-btn" @click="goLogout()">退出登录</button>
+      <button class="fz18 register-btn" @click="goModify()">修改密码</button>
+    </div>
   </div>
 </template>
 
@@ -33,6 +39,8 @@ export default {
   },
   data() {
     return {
+      isLogin: false,
+      userInfo: {},
       mobile: "17600996101",
       password: "",
       mobileStatus: "",
@@ -40,6 +48,13 @@ export default {
     };
   },
   methods: {
+    judgeLogin() {
+      console.log(JSON.parse(this.$cookie.get("userInfo")));
+      if (JSON.parse(this.$cookie.get("userInfo")).length !== 0) {
+        this.userInfo = JSON.parse(this.$cookie.get("userInfo"))[0];
+        this.isLogin = true
+      }
+    }, // 判断是否为登陆状态
     goLogin() {
       if (!this.mobile) {
         this.mobileStatus = "warning";
@@ -70,13 +85,25 @@ export default {
           Toast({
             message: '登陆成功',
             duration: 3000
-          })
+          });
+          this.$cookie.set('userInfo',JSON.stringify(res.data));
+          this.$router.go(0)
         }
       })
-    },
+    }, // 用户登录
     goRegister() {
       this.$router.push("/Register");
-    }
+    }, // 前往注册
+    goLogout() {
+      this.$cookie.remove("userInfo");
+      this.$router.push("/")
+    }, // 退出登录
+    goModify() {
+      this.$router.push("/Modify")
+    } //修改密码
+  },
+  created() {
+    this.judgeLogin()
   },
   watch: {
     mobile(val) {
@@ -90,7 +117,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.login {
+  .login {
   background: #fff;
   .logo {
     width: 80px;
@@ -121,4 +148,26 @@ export default {
     }
   }
 }
+  .info {
+    padding: 0 20px;
+    .login-btn {
+      width: 100%;
+      height: 40px;
+      border: 2px solid #333;
+      background: #fff;
+      border-radius: 4px;
+      margin: 10px auto;
+      display: block;
+    }
+    .register-btn {
+      width: 100%;
+      height: 40px;
+      border: 2px solid #333;
+      background: #333;
+      color: #fff;
+      border-radius: 4px;
+      margin: 10px auto;
+      display: block;
+    }
+  }
 </style>
