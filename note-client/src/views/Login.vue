@@ -49,8 +49,8 @@ export default {
   },
   methods: {
     judgeLogin() {
-      console.log(JSON.parse(this.$cookie.get("userInfo")));
-      if (JSON.parse(this.$cookie.get("userInfo")).length !== 0) {
+      // console.log(JSON.parse(this.$cookie.get("userInfo")));
+      if (this.$cookie.get("userInfo")&&JSON.parse(this.$cookie.get("userInfo")).length !== 0) {
         this.userInfo = JSON.parse(this.$cookie.get("userInfo"))[0];
         this.isLogin = true
       }
