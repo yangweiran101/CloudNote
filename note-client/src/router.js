@@ -5,6 +5,7 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Modify from "./views/Modify";
 import Write from "./views/Write";
+import Article from "./views/Article";
 
 Vue.use(Router);
 
@@ -34,7 +35,11 @@ export default new Router({
       path: "/write",
       name: "write",
       component: Write
-
+    },
+    {
+      path: "/article",
+      name: "article",
+      component: Article
     }
   ]
 });

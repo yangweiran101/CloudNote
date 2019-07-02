@@ -73,20 +73,27 @@ export default {
           duration: 3000
         });
       }
-      this.$axios.post('/register',{mobile: this.mobile,username: this.username,password:this.password}).then(res => {
-        console.log(res);
-        if (res.code == 401) return Toast({
-          message: res.data,
-          duration: 3000
+      this.$axios
+        .post("/register", {
+          mobile: this.mobile,
+          username: this.username,
+          password: this.password
         })
-        else if (res.code == 200) {
-          Toast({
-            message: '注册成功',
-            duration: 3000
-          });
-          this.$router.push("/login")
-        }
-      })
+        .then(res => {
+          console.log(res);
+          if (res.code == 401)
+            return Toast({
+              message: res.data,
+              duration: 3000
+            });
+          else if (res.code == 200) {
+            Toast({
+              message: "注册成功",
+              duration: 3000
+            });
+            this.$router.push("/login");
+          }
+        });
     }
   },
   watch: {

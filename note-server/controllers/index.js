@@ -1,4 +1,12 @@
-const { getUserInfo, goRegister ,goLogin ,upDateUser} = require('../schedule/index')
+const {
+  getUserInfo,
+  goRegister ,
+  goLogin ,
+  upDateUser ,
+  uploadArticle,
+  getArticleList,
+  getArticleDetail
+} = require('../schedule/index')
 
 const user = {
     get: async ctx => {
@@ -47,10 +55,9 @@ const user = {
         }
     },
     update: async ctx => {
-        ctx.body = ctx.request.body;
-        console.log('body赋值',ctx.body,ctx.request.body);
+        // console.log('body赋值',ctx.body,ctx.request.body);
         try{
-            const res = await upDateUser(ctx.body);
+            const res = await upDateUser(ctx.request.body);
             ctx.body = {
                 code:200,
                 data: res,
@@ -64,8 +71,63 @@ const user = {
             }
         }
     }
-}
+};
+
+const article = {
+  upload: async ctx => {
+    ctx.body = ctx.request.body;
+    console.log('文章',ctx.request.body);
+    try {
+      const res = await uploadArticle(ctx.body)
+      ctx.body = {
+        code:200,
+        data: res,
+        message: '发表成功'
+      }
+    } catch (e) {
+      ctx.body = {
+        code:401,
+        data: e,
+        message: '发表失败'
+      }
+    }
+  },
+  getList: async ctx => {
+    const res = await getArticleList()
+    try {
+      ctx.body = {
+        code:200,
+        data: res,
+        message: '获取成功'
+      }
+    } catch (e) {
+      ctx.body = {
+        code:200,
+        data: e,
+        message: '获取失败'
+      }
+    }
+  },
+  getDetail: async ctx => {
+    const id = ctx.query.id;
+    try {
+      const res = await getArticleDetail(id);
+      ctx.body = {
+        code: 200,
+        data: res,
+        message: '获取成功'
+      }
+    } catch (e) {
+      ctx.body = {
+        code: 401,
+        data: e,
+        message: '获取失败'
+      }
+    }
+  }
+};
 
 module.exports = {
-    user
+  user,
+  article
 }
