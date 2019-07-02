@@ -87,7 +87,7 @@ module.exports = {
     uploadArticle(body) {
       return new Promise((resolve,reject) => {
         pool.getConnection((err,connection) => {
-          connention.release();
+          connection.release();
           // 连接错误，抛出错误
           if (err) throw err
           var addSql = 'INSERT INTO article set ?'
@@ -101,12 +101,11 @@ module.exports = {
     },
     getArticleList() {
       return new Promise((resolve, reject) => {
-          pool.getConnection((err, connention) => {
-            connention.release();
+          pool.getConnection((err, connection) => {
             if (err) throw err
-            var querySql = 'select * from article order by id desc'
-            connention.query(querySql,(err,results) => {
-              connention.release();
+            var querySql = 'select * from article order by id desc limit 1,5'
+            connection.query(querySql,(err,results) => {
+              connection.release();
               if (err) reject(err)
               resolve(results)
             })
@@ -115,13 +114,13 @@ module.exports = {
     },
     getArticleDetail(id) {
       return new Promise((resolve, reject) => {
-        pool.getConnection((err, connention) => {
+        pool.getConnection((err, connection) => {
           if (err) throw err
           var querySql = `SELECT*FROM article WHERE articleId = ${id}`
-          connention.query(querySql,(err,results) => {
-            connention.release();
+          connection.query(querySql,(err,results) => {
+            connection.release();
             if (err) reject(err);
-            console.log('文章详情',results);
+            console.log('文章详情',results,id);
             if (results.length == 0) {
               reject('未找到数据');
             } else {
