@@ -99,11 +99,12 @@ module.exports = {
         })
       })
     },
-    getArticleList() {
+    getArticleList(query) {
       return new Promise((resolve, reject) => {
           pool.getConnection((err, connection) => {
+            // console.log(query.page,query.size,(query.page - 1)*query.size);
             if (err) throw err
-            var querySql = 'select * from article order by id desc limit 1,5'
+            var querySql = `select * from article order by id desc limit ${(query.page - 1)*query.size},${query.size}`
             connection.query(querySql,(err,results) => {
               connection.release();
               if (err) reject(err)

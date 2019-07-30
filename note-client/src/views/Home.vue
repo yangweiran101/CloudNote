@@ -45,16 +45,27 @@
     </div>
     <!--日志文章-->
     <div class="essay">
-      <div class="title fwb fz18 lh18">日志文章</div>
-      <div class="essay-item mt10 ml10" @click="goToDetial(item.articleId)" v-for="(item,index) in essay" :key="index">
-        <div class="item-title fz18 mt20 mt10">{{item.title}}</div>
+      <div class="title fwb fz18 lh18 clearfix">
+        日志文章
+        <span class="fz14 fwn c66 fr dib" @click="goToMoreArticle()">
+          更多
+          <i class="iconfont icon-icon-test15"></i>
+        </span>
+      </div>
+      <div
+        class="essay-item mt10 ml10"
+        @click="goToDetial(item.articleId)"
+        v-for="(item, index) in essay"
+        :key="index"
+      >
+        <div class="item-title fz18 mt20 mt10">{{ item.title }}</div>
         <div class="item-info fz14">
           <i class="iconfont icon-shijian fz12"></i>
-          <span class="time fz12 c66 ml7">{{item.createTime}}</span>
+          <span class="time fz12 c66 ml7">{{ item.createTime }}</span>
           <i class="iconfont icon-denglu fz12 ml20"></i>
-          <span class="time fz12 c66 ml7">{{item.author.username}}</span>
+          <span class="time fz12 c66 ml7">{{ item.author.username }}</span>
           <i class="iconfont icon-zhuanyehuwai fz12 ml20"></i>
-          <span class="time fz12 c66 ml7">{{item.view}}</span>
+          <span class="time fz12 c66 ml7">{{ item.view }}</span>
         </div>
       </div>
     </div>
@@ -143,17 +154,21 @@ export default {
   methods: {
     // 获取日志列表
     getEssay() {
-      this.$axios.get("/article/getList").then(res => {
+      this.$axios.get("/article/getList", { page: 1, size: 5 }).then(res => {
         res.data.forEach(item => {
-          item.author = JSON.parse(item.author)
-        })
+          item.author = JSON.parse(item.author);
+        });
         // console.log(res);
         this.essay = res.data;
-      })
+      });
     },
     // 获取文章详情
     goToDetial(id) {
       this.$router.push(`/article?id=${id}`);
+    },
+    // 前往文章列表
+    goToMoreArticle() {
+      this.$router.push("/articlelist");
     }
   },
   created() {

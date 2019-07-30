@@ -6,6 +6,7 @@ import Register from "./views/Register";
 import Modify from "./views/Modify";
 import Write from "./views/Write";
 import Article from "./views/Article";
+import ArticleList from "./views/ArticleList";
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
       path: "/article",
       name: "article",
       component: Article
+    },
+    {
+      path: "/articlelist",
+      name: "articlelist",
+      component: ArticleList
     }
   ]
 });

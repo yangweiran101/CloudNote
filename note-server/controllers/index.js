@@ -93,7 +93,8 @@ const article = {
     }
   },
   getList: async ctx => {
-    const res = await getArticleList()
+    // console.log('文章参数',ctx.query);
+    const res = await getArticleList(ctx.query)
     try {
       ctx.body = {
         code:200,
