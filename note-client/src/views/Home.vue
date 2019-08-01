@@ -30,7 +30,7 @@
     </mt-swipe>
     <!--选项卡-->
     <div class="tabbar">
-      <div class="tabbar-item">
+      <div class="tabbar-item" @click="goToMoreArticle()">
         <img src="../assets/img/index-bar04.png" alt="" />
         <div class="title c33 fz12 mt10 tc">日志文章</div>
       </div>
