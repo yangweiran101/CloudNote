@@ -55,7 +55,11 @@ module.exports = {
                     connection.release();
                     // console.log(results);
                     if (results.length === 0) reject('该手机号未注册'); // 手机号未在数据库里面
-                    else if (results[0].password == body.password) resolve(results); // 手机号密码正确
+                    else if (results[0].password == body.password) resolve([{
+                      id: results[0].id,
+                      mobile: results[0].mobile,
+                      username: results[0].username
+                    }]); // 手机号密码正确
                     else reject('密码错误，请重试') // 手机号已注册，但密码错误
                 })
             })

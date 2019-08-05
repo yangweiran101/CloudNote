@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
-// import "lib-flexible";
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import xhr from './axios'
