@@ -8,7 +8,7 @@ const {
   getArticleDetail,
   getCount
 } = require('../schedule/index');
-const fs=require("fs")
+const fs = require("fs")
 const path = require('path')
 const uploadUrl = "http://localhost:3000/upload";
 
@@ -168,7 +168,7 @@ const news = {
       })
     } else {
       let upstream=fs.createWriteStream(fileResource)
-      reader.pipe(upstream);
+        reader.pipe(upstream);
       ctx.body = {
         code:200,
         data: uploadUrl + `/${file.name}`,
