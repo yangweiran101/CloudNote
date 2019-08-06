@@ -2,20 +2,21 @@ const pool = require('../schedule/pool')
 
 module.exports = {
     // 登陆相关
-    getUserInfo() {
+    getUserInfo(query) {
         return new Promise((resolve, reject) => {
             pool.getConnection((err, connection) => {
                 if (err) throw err;
-                connection.query('select * from user', (err, results) => {
+              console.log(query);
+              connection.query(`select * from user limit ${(query.page - 1)*query.size},${query.size}`, (err, results) => {
                   connection.release();
-                    if (err) reject(err)
-                    console.log(1, results);
-                    var userList = [];
-                    results.forEach(val => {
-                        userList.push({username:val.username})
-                    })
-                    resolve(userList)
-                })
+                  if (err) reject(err)
+                  console.log('回调',results);
+                  var userList = [];
+                      results.forEach(val => {
+                          userList.push({username:val.username,mobile:val.mobile,id:val.id})
+                      });
+                      resolve(userList)
+                  })
             })
         })
     },
@@ -134,5 +135,21 @@ module.exports = {
           })
         })
       })
-    }
+    },
+
+    // 工具
+    getCount(form) {
+      return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+          if (err) throw err;
+          console.log('名字',form);
+          connection.query(`select count(id) from ${form}`, (err, results) => {
+            console.log('数量',results);
+            connection.release();
+            if (err) reject(err)
+            resolve(results[0]['count(id)'])
+          })
+        })
+      })
+    },
 }

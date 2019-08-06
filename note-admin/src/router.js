@@ -18,8 +18,13 @@ export default new Router({
         {
           path: "/user/userList",
           component: () =>
-            import(/* webpackChunkName: "default" */ "./views/user/userList")
+            import(/* webpackChunkName: "userList" */ "./views/user/userList")
         },
+        {
+          path: "/news/addNews",
+          component: () =>
+            import(/* webpackChunkName: "addNews" */ "./views/news/addNews")
+        }
       ]
     },
     {

@@ -12,18 +12,10 @@
       }
     },
     methods: {
-      isLogin() {
-        // console.log("电话",this.mobile);
-        if (!this.mobile) {
-          this.$message('未登录,正在前往登录')
-          setTimeout(() => {
-            this.$router.push('/login')
-          },2000)
-        }
-      }
+
     },
     created() {
-      this.isLogin()
+
     },
     computed: {
       ...mapState({

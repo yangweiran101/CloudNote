@@ -5,17 +5,35 @@ const {
   upDateUser ,
   uploadArticle,
   getArticleList,
-  getArticleDetail
-} = require('../schedule/index')
+  getArticleDetail,
+  getCount
+} = require('../schedule/index');
+const fs=require("fs")
+const path = require('path')
+const uploadUrl = "http://localhost:3000/upload";
 
 const user = {
     get: async ctx => {
-        const res = await getUserInfo()
+      try{
+        const list = await getUserInfo(ctx.query)
+        const count = await getCount('user')
+        console.log('内容',list, count);
+        let res = {
+          list: list,
+          total: count
+        }
         ctx.body = {
             code:200,
             data: res,
             message: '操作成功'
         }
+      } catch (e) {
+        ctx.body = {
+          code:401,
+          data: e,
+          message: '获取失败'
+        }
+      }
     },
     register: async ctx => {
         // ctx.body = ctx.request.body;
@@ -72,7 +90,6 @@ const user = {
         }
     }
 };
-
 const article = {
   upload: async ctx => {
     ctx.body = ctx.request.body;
@@ -127,8 +144,61 @@ const article = {
     }
   }
 };
+const news = {
+  uploadImg: async ctx => {
+    // ctx.body = ctx.request.body;
+    console.log('文件',ctx.request.files.file);
+    const file = ctx.request.files.file;
+    const reader = fs.createReadStream(file.path);
+    let filePath = path.resolve( __dirname, "../public/upload/");
+    let fileResource = filePath + `/${file.name}`;
+    if(!fs.existsSync(filePath)) {
+      fs.mkdir(filePath,(err)=>{
+        if (err) {
+          throw new Error(err)
+        } else {
+          let upstream=fs.createWriteStream(fileResource);
+          reader.pipe(upstream);
+          ctx.body = {
+            code:200,
+            data: uploadUrl + `/${file.name}`,
+            message: '上传测试'
+          }
+        }
+      })
+    } else {
+      let upstream=fs.createWriteStream(fileResource)
+      reader.pipe(upstream);
+      ctx.body = {
+        code:200,
+        data: uploadUrl + `/${file.name}`,
+        message: '上传测试'
+      }
+    }
+    // ctx.body = {
+    //   code:200,
+    //   data: ctx.request.files.file,
+    //   message: '上传测试'
+    // }
+    // try {
+    //   const res = await uploadArticle(ctx.body)
+    //   ctx.body = {
+    //     code:200,
+    //     data: res,
+    //     message: '发表成功'
+    //   }
+    // } catch (e) {
+    //   ctx.body = {
+    //     code:401,
+    //     data: e,
+    //     message: '发表失败'
+    //   }
+    // }
+  }
+};
 
 module.exports = {
   user,
-  article
+  article,
+  news
 }

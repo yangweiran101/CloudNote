@@ -96,7 +96,8 @@
                 return this.$message.error(res.data)
               else if (res.code == 200) {
                 this.$message.success("登陆成功");
-                this.$store.commit('changeUserInfo',res.data[0])
+                this.$store.commit('changeUserInfo',res.data[0]);
+                this.$cookie.set('userInfo',JSON.stringify(res.data[0]))
                 this.$router.push('/');
               }
             })
