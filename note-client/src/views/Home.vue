@@ -54,7 +54,7 @@
       </div>
       <div
         class="essay-item mt10 ml10"
-        @click="goToDetial(item.articleId)"
+        @click="goToDetial(item.articleId,0)"
         v-for="(item, index) in essay"
         :key="index"
       >
@@ -73,66 +73,34 @@
     <div class="article">
       <div class="title fwb fz18 lh18">热点新闻</div>
       <div class="box">
-        <div class="article-item mt10">
-          <img src="../assets/img/index-bar01.png" alt="" />
-          <div class="info">
-            <div class="info-title fz14 fwb">
-              欠信用卡的钱不还？你知道后果有多严重吗？
-            </div>
-            <div>
-              <i class="iconfont icon-shijian fz12"></i>
-              <span class="time fz12 c66 ml7">2018/11/20</span>
-            </div>
-          </div>
-        </div>
-        <div class="article-item mt10">
-          <img src="../assets/img/index-bar01.png" alt="" />
-          <div class="info">
-            <div class="info-title fz14">
-              欠信用卡的钱不还？你知道后果有多严重吗？
-            </div>
-            <div>
-              <i class="iconfont icon-shijian fz12"></i>
-              <span class="time fz12 c66 ml7">2018/11/20</span>
-            </div>
-          </div>
-        </div>
-        <div class="article-item mt10">
-          <img src="../assets/img/index-bar01.png" alt="" />
+        <!--<div class="article-item mt10">-->
+          <!--<img src="../assets/img/index-bar01.png" alt="" />-->
+          <!--<div class="info">-->
+            <!--<div class="info-title fz14 fwb">-->
+              <!--欠信用卡的钱不还？你知道后果有多严重吗？-->
+            <!--</div>-->
+            <!--<div>-->
+              <!--<i class="iconfont icon-shijian fz12"></i>-->
+              <!--<span class="time fz12 c66 ml7">2018/11/20</span>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="article-item mt10"
+             v-for="(item,index) in news"
+             :key="index"
+             @click="goToDetial(item.articleId,1)">
+          <img :src="item.headImageUrl" alt="" />
           <div class="info">
             <div class="info-title fz14">
-              欠信用卡的钱不还？你知道后果有多严重吗？
+              {{item.title}}
             </div>
             <div>
               <i class="iconfont icon-shijian fz12"></i>
-              <span class="time fz12 c66 ml7">2018/11/20</span>
+              <span class="time fz12 c66 ml7">{{ item.createTime }}</span>
             </div>
           </div>
         </div>
-        <div class="article-item mt10">
-          <img src="../assets/img/index-bar01.png" alt="" />
-          <div class="info">
-            <div class="info-title fz14">
-              欠信用卡的钱不还？你知道后果有多严重吗？
-            </div>
-            <div>
-              <i class="iconfont icon-shijian fz12"></i>
-              <span class="time fz12 c66 ml7">2018/11/20</span>
-            </div>
-          </div>
-        </div>
-        <div class="article-item mt10">
-          <img src="../assets/img/index-bar01.png" alt="" />
-          <div class="info">
-            <div class="info-title fz14">
-              欠信用卡的钱不还？你知道后果有多严重吗？
-            </div>
-            <div>
-              <i class="iconfont icon-shijian fz12"></i>
-              <span class="time fz12 c66 ml7">2018/11/20</span>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -148,7 +116,8 @@ export default {
   },
   data() {
     return {
-      essay: []
+      essay: [],
+      news: []
     };
   },
   methods: {
@@ -162,9 +131,21 @@ export default {
         this.essay = res.data;
       });
     },
+    // 获取新闻列表
+    getNews() {
+      this.$axios.get("/news/getList", { page: 1, size: 5 }).then(res => {
+        console.log(res);
+        this.news = res.data;
+      });
+    },
     // 获取文章详情
-    goToDetial(id) {
-      this.$router.push(`/article?id=${id}`);
+    goToDetial(id,type) {
+      if (type == 0) {
+        this.$router.push(`/article?id=${id}`);
+      } else if (type == 1) {
+        this.$router.push(`/article?id=${id}`);
+      }
+
     },
     // 前往文章列表
     goToMoreArticle() {
@@ -173,6 +154,7 @@ export default {
   },
   created() {
     this.getEssay();
+    this.getNews();
   }
 };
 </script>

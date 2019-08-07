@@ -16,6 +16,8 @@ router.get('/article/geDetail', controller.article.getDetail)
 
 // 新闻相关
 router.post('/news/uploadImg', controller.news.uploadImg)
+router.post('/news/addNews', controller.news.addNews)
+router.get('/news/getList', controller.news.getList)
 
 
 module.exports = router

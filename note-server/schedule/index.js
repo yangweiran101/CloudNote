@@ -137,6 +137,37 @@ module.exports = {
       })
     },
 
+    // 新闻相关
+    uploadNews(body) {
+      return new Promise((resolve,reject) => {
+        pool.getConnection((err,connection) => {
+          connection.release();
+          // 连接错误，抛出错误
+          if (err) throw err
+          var addSql = 'INSERT INTO news set ?'
+          connection.query(addSql,body,(err, results) => {
+            // console.log('获取',body,err,results);
+            if (err) reject(body);
+            resolve(results)
+          })
+        })
+      })
+    },
+    getNewsList(query) {
+      return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+          // console.log(query.page,query.size,(query.page - 1)*query.size);
+          if (err) throw err
+          var querySql = `select * from news order by id desc limit ${(query.page - 1)*query.size},${query.size}`
+          connection.query(querySql,(err,results) => {
+            connection.release();
+            if (err) reject(err)
+            resolve(results)
+          })
+        })
+      })
+    },
+
     // 工具
     getCount(form) {
       return new Promise((resolve, reject) => {
