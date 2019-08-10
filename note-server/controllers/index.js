@@ -3,18 +3,19 @@ const {
   goRegister ,
   goLogin ,
   upDateUser ,
+  deletUser,
   uploadArticle,
   getArticleList,
   getArticleDetail,
   getCount,
   uploadNews,
-  getNewsList
+  getNewsList,
+  getNewsDetail
 } = require('../schedule/index');
 const fs = require("fs")
 const path = require('path')
 const createHash = require('../public/javascripts/createHash');
 const uploadUrl = "http://localhost:3000/upload";
-
 
 const user = {
     get: async ctx => {
@@ -92,6 +93,23 @@ const user = {
                 message: '修改失败'
             }
         }
+    },
+    delete: async ctx => {
+      try{
+        const res = await deletUser(ctx.query)
+        console.log('内容',res);
+        ctx.body = {
+          code:200,
+          data: res,
+          message: '操作成功'
+        }
+      } catch (e) {
+        ctx.body = {
+          code:401,
+          data: e,
+          message: '删除失败'
+        }
+      }
     }
 };
 const article = {
@@ -216,6 +234,23 @@ const news = {
       }
     }
   },
+  getDetail: async ctx => {
+    const id = ctx.query.id;
+    try {
+      const res = await getNewsDetail(id);
+      ctx.body = {
+        code: 200,
+        data: res,
+        message: '获取成功'
+      }
+    } catch (e) {
+      ctx.body = {
+        code: 401,
+        data: e,
+        message: '获取失败'
+      }
+    }
+  }
 };
 
 module.exports = {

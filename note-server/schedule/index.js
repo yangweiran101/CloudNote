@@ -87,6 +87,21 @@ module.exports = {
             })
         })
     },
+    deletUser(query) {
+        return new Promise((resolve,reject) => {
+            pool.getConnection((err,connection) => {
+                // 连接错误，抛出错误
+              console.log('参数',query);
+              if (err) throw err
+                var querySql = `DELETE FROM user WHERE id = ${query.id}`
+                connection.query(querySql,(err,results) => {
+                  connection.release();
+                  if (err) reject(err)
+                  resolve(results)
+                })
+            })
+        })
+    },
 
     // 文章相关
     uploadArticle(body) {
@@ -122,11 +137,11 @@ module.exports = {
       return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {
           if (err) throw err
-          var querySql = `SELECT*FROM article WHERE articleId = ${id}`
+          var querySql = `SELECT*FROM article WHERE articleId = '${id}'`
           connection.query(querySql,(err,results) => {
             connection.release();
             if (err) reject(err);
-            console.log('文章详情',results,id);
+            // console.log('文章详情',results,id);
             if (results.length == 0) {
               reject('未找到数据');
             } else {
@@ -163,6 +178,24 @@ module.exports = {
             connection.release();
             if (err) reject(err)
             resolve(results)
+          })
+        })
+      })
+    },
+    getNewsDetail(id) {
+      return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+          if (err) throw err
+          var querySql = `SELECT*FROM news WHERE newsId = '${id}'`
+          connection.query(querySql,(err,results) => {
+            connection.release();
+            if (err) reject(err);
+            // console.log('文章详情',results,id);
+            if (results.length == 0) {
+              reject('未找到数据');
+            } else {
+              resolve(results[0])
+            }
           })
         })
       })

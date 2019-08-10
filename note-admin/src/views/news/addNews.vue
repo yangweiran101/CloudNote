@@ -130,6 +130,7 @@
         }
       },
       beforeImgUpload(file) {
+        console.log(file);
         const isLt2M = file.size / 1024 / 1024 < 10;
 
         if (!isLt2M) {

@@ -24,7 +24,7 @@
       <div class="fz20 tc">
         尊敬的<span>{{ userInfo.username }}</span>
       </div>
-      <div class="fz28 tc mb30">您好 <br />欢迎来到，树林小站</div>
+      <div class="fz28 tc mb30">欢迎来到，树林小站</div>
       <button class="fz18 login-btn" @click="goLogout()">退出登录</button>
       <button class="fz18 register-btn" @click="goModify()">修改密码</button>
     </div>
@@ -128,9 +128,10 @@ export default {
 .login {
   background: #fff;
   .logo {
-    width: 80px;
-    height: 80px;
-    margin: 15px auto 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 24px auto 0;
   }
   .user {
     padding: 0 20px;

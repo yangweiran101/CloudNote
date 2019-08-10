@@ -21,6 +21,8 @@
 import E from "wangeditor";
 import { Toast } from "mint-ui";
 import Header from "../components/Header";
+import createHash from "../assets/js/createHash"
+import formatDateTime from "../assets/js/formatDateTime"
 export default {
   name: "Write",
   components: {
@@ -57,16 +59,12 @@ export default {
         });
       } else {
         const essay = {};
-        essay.author = JSON.stringify(this.userInfo);
+        essay.author = this.userInfo.username;
         essay.userId = this.userInfo.id;
-        essay.articleId =
-          JSON.stringify(new Date().getTime()) +
-          this.userInfo.id +
-          this.userInfo.id * new Date().getSeconds();
+        essay.articleId = createHash(32);
         essay.title = this.title;
         essay.content = this.editorContent;
-        essay.createTime = this.$formatDateTime(new Date());
-        console.log( essay, essay.createTime, new Date().getTime(), this.userInfo.id * new Date().getSeconds());
+        essay.createTime = formatDateTime(new Date());
         this.$axios.post("/article/upload", essay).then(res => {
           // console.log(res);
           if (res.code == 401) {

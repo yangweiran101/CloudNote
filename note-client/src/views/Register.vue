@@ -114,9 +114,9 @@ export default {
 .login {
   background: #fff;
   .logo {
-    width: 80px;
-    height: 80px;
-    margin: 15px auto 0;
+    width: 120px;
+    height: 120px;
+    margin: 24px auto 0;
   }
   .user {
     padding: 0 20px;

@@ -1,14 +1,14 @@
 <template>
   <div class="header row">
-    <div class="col-20 left lh40 tc" @click="goWrite()">
-      <i class="iconfont icon-icon-test10 fz24" v-if="this.$route.path === '/'"></i>
+    <div class="col-20 left lh36 tc">
+      <i class="iconfont icon-icon-test10 fz24" @click="goWrite()" v-if="this.$route.path === '/'"></i>
       <i class="iconfont icon-icon-test13 fz24" v-else @click="goBack()"></i>
     </div>
     <div class="col-33 middle">
       <img class="dib" src="../assets/img/yang-logo.png" alt="" />
       <div class="fz18 lh44 c33">{{ inputName }}</div>
     </div>
-    <div class="col-20 right lh40 tc" @click="goLogin()">
+    <div class="col-20 right lh36 tc" @click="goLogin()">
       <i class="iconfont icon-icon-test1 fz24"></i>
     </div>
   </div>
