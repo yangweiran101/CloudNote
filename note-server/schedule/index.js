@@ -13,7 +13,7 @@ module.exports = {
                   console.log('回调',results);
                   var userList = [];
                       results.forEach(val => {
-                          userList.push({username:val.username,mobile:val.mobile,id:val.id})
+                          userList.push({username:val.username,mobile:val.mobile,id:val.id,avator:val.avator})
                       });
                       resolve(userList)
                   })
@@ -59,7 +59,8 @@ module.exports = {
                     else if (results[0].password == body.password) resolve([{
                       id: results[0].id,
                       mobile: results[0].mobile,
-                      username: results[0].username
+                      username: results[0].username,
+                      avator: results[0].avator,
                     }]); // 手机号密码正确
                     else reject('密码错误，请重试') // 手机号已注册，但密码错误
                 })

@@ -1,7 +1,22 @@
 <template>
   <div class="login">
     <Header inputName="登 录"></Header>
-    <img class="dib logo" src="../assets/img/yang-logo.png" alt="" />
+    <img class="dib logo" v-if="isLogin" :src="userInfo.avator" alt="" />
+    <input type="file" v-if="isLogin" class="update" @change="getFile" />
+    <img
+      class="dib logo"
+      v-if="!isLogin"
+      src="../assets/img/yang-logo.png"
+      alt=""
+    />
+    <div class="info" v-if="isLogin">
+      <div class="fz20 tc">
+        尊敬的<span>{{ userInfo.username }}</span>
+      </div>
+      <div class="fz28 tc mb30">欢迎来到，树林小站</div>
+      <button class="fz18 login-btn" @click="goLogout()">退出登录</button>
+      <button class="fz18 register-btn" @click="goModify()">修改密码</button>
+    </div>
     <div class="user" v-if="!isLogin">
       <mt-field
         label="手机号"
@@ -19,14 +34,6 @@
       ></mt-field>
       <button class="fz18 login-btn" @click="goLogin()">确认登录</button>
       <button class="fz18 register-btn" @click="goRegister()">前往注册</button>
-    </div>
-    <div class="info" v-else>
-      <div class="fz20 tc">
-        尊敬的<span>{{ userInfo.username }}</span>
-      </div>
-      <div class="fz28 tc mb30">欢迎来到，树林小站</div>
-      <button class="fz18 login-btn" @click="goLogout()">退出登录</button>
-      <button class="fz18 register-btn" @click="goModify()">修改密码</button>
     </div>
   </div>
 </template>
@@ -83,7 +90,7 @@ export default {
       this.$axios
         .post("/login", { mobile: this.mobile, password: this.password })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 401)
             return Toast({
               message: res.data,
@@ -108,7 +115,15 @@ export default {
     }, // 退出登录
     goModify() {
       this.$router.push("/Modify");
-    } //修改密码
+    }, //修改密码
+    getFile(e) {
+      let file = e.target.files[0];
+      if(!/.(gif|jpg|jpeg|png|gif|jpg|png)$/.test(file)){
+        alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+        return;
+      }
+      console.log("图片", file);
+    } // 修改头像
   },
   created() {
     this.judgeLogin();
@@ -155,6 +170,16 @@ export default {
       margin: 10px auto;
       display: block;
     }
+  }
+  .update {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 69px;
+    transform: translateX(-50%);
   }
 }
 .info {
